@@ -28,12 +28,27 @@ pipeline {
             }
         }
         stage('Deploy') {
-            steps {
-                echo "Deploying Container..."
-                sh "docker ps -a | grep $APP_NAME && docker stop $APP_NAME && docker rm $APP_NAME || echo 'No existing container'"
-                sh "docker run -d --name $APP_NAME -p 8000:3000 $DOCKER_IMAGE"
-            }
-        }
+    steps {
+        echo "Deploying Container..."
+
+        // Stop old container if exists
+        sh """
+        if [ \$(docker ps -q -f name=$APP_NAME) ]; then
+            echo 'Stopping old container...'
+            docker stop $APP_NAME
+        fi
+
+        // Remove old container if exists
+        if [ \$(docker ps -aq -f name=$APP_NAME) ]; then
+            echo 'Removing old container...'
+            docker rm $APP_NAME
+        fi
+
+        // Run new container
+        docker run -d --name $APP_NAME -p $APP_PORT:3000 $DOCKER_IMAGE
+        """
+    }
+}
     }
     post {
         always {
