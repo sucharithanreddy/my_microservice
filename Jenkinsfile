@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/sucharithanreddy/my_microservice.git', credentialsId: 'github-creds'
+                git branch: 'master', url: 'https://github.com/sucharithanreddy/my_microservice.git', credentialsId: 'github-creds'
             }
         }
         stage('Build') {
