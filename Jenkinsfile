@@ -31,7 +31,7 @@ pipeline {
             steps {
                 echo "Deploying Container..."
                 sh "docker ps -a | grep $APP_NAME && docker stop $APP_NAME && docker rm $APP_NAME || echo 'No existing container'"
-                sh "docker run -d --name $APP_NAME -p 3000:3000 $DOCKER_IMAGE"
+                sh "docker run -d --name $APP_NAME -p 8000:3000 $DOCKER_IMAGE"
             }
         }
     }
