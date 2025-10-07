@@ -3,6 +3,7 @@ pipeline {
     environment {
         APP_NAME = "my-microservice"
         DOCKER_IMAGE = "my-microservice:latest"
+        APP_PORT = "8000"
     }
     stages {
         stage('Docker Test') {
